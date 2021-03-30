@@ -8,6 +8,8 @@ import com.tu.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +32,7 @@ public class CustomerController {
     private RoleRepository roleRepository;
 
     @GetMapping("")
-    public String showList(Model model, Pageable pageable) {
+    public String showList(Model model,   @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("list", customerService.showAll(pageable));
         return "admin/manager/customer/list-customer";
     }
@@ -104,7 +106,7 @@ public class CustomerController {
     }
 
     @GetMapping("/showDeleteCustomer")
-    public String showDelete(Model model, Pageable pageable) {
+    public String showDelete(Model model,   @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("list", customerRepository.findAllByDeletedIsTrue(pageable));
         return "admin/manager/customer/list-delete-customer";
     }

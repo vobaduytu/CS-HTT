@@ -6,6 +6,8 @@ import com.tu.service.CategoryService;
 import com.tu.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,7 @@ public class HomeController {
 @Autowired
 private CategoryService categoryService;
     @GetMapping("/home")
-    public String showHome(Model model, Pageable pageable){
+    public String showHome(Model model,  @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
         model.addAttribute("list",productService.showAll(pageable));
         model.addAttribute("categories",categoryRepository.findByDeletedIsFalse (pageable));
         return "shop/home";

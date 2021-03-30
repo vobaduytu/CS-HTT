@@ -8,6 +8,8 @@ import com.tu.service.CategoryService;
 import com.tu.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +35,7 @@ public class ProductController {
     private CategoryService categoryService;
 
     @GetMapping("")
-    public String showProduct(Model model, Pageable pageable) {
+    public String showProduct(Model model,   @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("list", productService.showAll(pageable));
         return "admin/manager/product/list-product";
     }
@@ -113,7 +115,7 @@ public class ProductController {
     }
 
     @GetMapping("/showDeleteProduct")
-    public String showDelete(Model model, Pageable pageable) {
+    public String showDelete(Model model,   @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("list", productRepository.findAllByDeletedIsTrue(pageable));
         return "admin/manager/product/list-delete-product";
     }

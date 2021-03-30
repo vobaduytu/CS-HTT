@@ -64,6 +64,11 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <a th:href="@{/category/showDeleteCategory(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a>
+                <span th:text="${list.number + 1}"></span>/<span th:text="${list.totalPages}"></span>
+                <a th:href="@{/category/showDeleteCategory(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
+            </div>
         </div>
         <footer class="footer">
             <div class="container-fluid">

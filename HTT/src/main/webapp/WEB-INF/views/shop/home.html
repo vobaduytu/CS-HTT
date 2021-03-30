@@ -147,13 +147,12 @@
                     </div>
                     <!-- Pagination Start -->
                     <div class="row">
-                        <div class="col-sm-12 text-center">
-                            <ul class="pagination pagination-lg">
-                                <li class="active"><a href="shop.html">1</a></li>
-                                <li><a href="shop2.html">2</a></li>
-                                <li><a href="shop2.html"><span class="glyphicon glyphicon-arrow-right"></span></a></li>
-                            </ul>
+                        <div>
+                            <a th:href="@{/home(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a>
+                            <span th:text="${list.number + 1}"></span>/<span th:text="${list.totalPages}"></span>
+                            <a th:href="@{/home(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
                         </div>
+
                     </div>
                     <!-- Pagination End -->
                 </div>
