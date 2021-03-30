@@ -14,7 +14,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -30,6 +32,21 @@ public class CategoryController {
     private CategoryService categoryService;
     @Autowired
     private ProductRepository productRepository;
+
+    @InitBinder
+
+    public void initBinder(WebDataBinder dataBinder) {
+
+        Object target = dataBinder.getTarget();
+
+        if (target == null) {
+            return;
+        }
+        System.out.println("Target=" + target);
+        if (target.getClass() == Category.class) {
+            dataBinder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+        }
+    }
 
     @GetMapping("")
     public String showList(Model model, Pageable pageable) {

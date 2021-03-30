@@ -79,10 +79,10 @@
 
                         <!-- single product -->
                         <th:block th:each="product : ${list}">
-                        <div class="col-sm-4 text-center margin-bottom-20">
+                        <div class="col-sm-3 text-center margin-bottom-20">
                             <div href="#" class="product-single">
                                 <a class="overflow-hidden display-block" th:href="@{/productPage/{id}(id=${product.id})}">
-                                    <img class="img-responsive" th:src="${product.image}">
+                                    <img class="img-responsive" th:src="${product.image}" style="width: 270px; height: 270px">
                                 </a>
                                 <div class="product-title margin-bottom-5">
                                     <a th:href="@{/productPage/{id}(id=${product.id})}" th:utext="${product.name}"></a>

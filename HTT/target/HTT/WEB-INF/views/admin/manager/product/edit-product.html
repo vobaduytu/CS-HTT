@@ -39,8 +39,8 @@
                                 <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name Error</td>
                             </div>
                             <div class="form-group">
-                                <label for="comment">Description:</label>
-                                <textarea class="form-control" rows="5" id="comment"
+                                <label for="description">Description:</label>
+                                <textarea id="description"
                                           th:field="*{description}"></textarea>
                                 <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">name Error</td>
                             </div>
@@ -143,6 +143,8 @@
     </div>
 </div>
 <footer th:replace="admin/rescources :: scrip"></footer>
+<div th:replace="admin/rescources :: summernote"></div>
+
 </body>
 
 </html>

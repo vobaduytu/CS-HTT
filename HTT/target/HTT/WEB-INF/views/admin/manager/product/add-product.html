@@ -57,7 +57,7 @@
                             </div>
                             <input type="file"
                                    id="img" name="avatar"
-                                   accept="image/png, image/jpeg" th:field="*{image}">
+                                   th:field="*{image}">
                             <div class="form-group">
                                 <label for="price">Price:</label>
                                 <input type="text" class="form-control" id="price" th:field="*{price}">
@@ -148,6 +148,8 @@
     </div>
 </div>
 <footer th:replace="admin/rescources :: scrip"></footer>
+<div th:replace="admin/rescources :: summernote"></div>
+
 </body>
 
 </html>

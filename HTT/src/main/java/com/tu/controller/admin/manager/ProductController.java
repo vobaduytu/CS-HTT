@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String doAdd(@Valid @ModelAttribute("product") Product product, BindingResult result, RedirectAttributes attributes, Model model) {
+    public String doAdd(@Valid @ModelAttribute("product") Product product, BindingResult result, RedirectAttributes attributes, Model model, HttpServletRequest request) {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("categoryList", categoryRepository.findAll());

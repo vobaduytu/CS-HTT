@@ -4,6 +4,8 @@ package com.tu.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -25,7 +27,7 @@ public class Product {
     private String color;
     @NotBlank
     private String image;
-
+    @Min(value = 0)
     private double price;
     @Column(name = "create_date")
     private LocalDateTime createDate = LocalDateTime.now();
@@ -39,7 +41,7 @@ public class Product {
     private LocalDateTime restoreDate ;
 
     private boolean status;
-
+    @Min(value = 0)
     private int quantity;
     @ManyToOne
     @JoinColumn(name = "category_id")

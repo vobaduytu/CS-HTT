@@ -6,6 +6,7 @@ import com.tu.repository.CustomerRepository;
 import com.tu.repository.RoleRepository;
 import com.tu.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,21 +42,29 @@ public class CustomerController {
         return "admin/manager/customer/add-customer";
     }
 
+
     @PostMapping("/doAdd")
     public String doAdd(@Valid @ModelAttribute("customer") Customer customer, BindingResult result, RedirectAttributes attributes, Model model
-    ) {
+            , Pageable pageable) {
         if (result.hasFieldErrors()){
-            return "redirect:/customer/add";
+            return "admin/manager/customer/add-customer";
         }
 
-        if ((customer.getPassword()).equals(customer.getConfigPassword())){
-            customerService.save(customer);
-            attributes.addFlashAttribute("mess","Thêm mới thành công...!!!");
-            return "redirect:/customer";
+        Page<Customer> customerTemp = customerRepository.findByEmail(pageable,customer.getEmail());
+        if (customerTemp.isEmpty()){
+            if ((customer.getPassword()).equals(customer.getConfigPassword())){
+                customerService.save(customer);
+                attributes.addFlashAttribute("mess","Thêm mới thành công...!!!");
+                return "redirect:/customer";
+            }else {
+                attributes.addFlashAttribute("mess","Mật khẩu không khớp...!!!");
+                return "redirect:/customer/add";
+            }
         }else {
-            attributes.addFlashAttribute("mess","Mật khẩu không khớp...!!!");
-            return "redirect:/customer/add";
+            attributes.addFlashAttribute("mess","Email đã tồn tại...!!!");
+            return "redirect:/customer";
         }
+
     }
 
     @GetMapping("/edit/{id}")

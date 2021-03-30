@@ -2,6 +2,7 @@ package com.tu.model;
 
 
 import lombok.Data;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -37,6 +38,8 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
+
+    private CommonsMultipartFile image;
 
 
     private boolean deleted;
