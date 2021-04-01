@@ -12,7 +12,7 @@
 <div class="container-fluid margin-bottom-20">
     <div class="row padding-0">
         <div class="col-sm-12 padding-0">
-            <a href="shop.html" class="homebanner">
+            <a href="#" class="homebanner">
                 <img src="/resources/shop/img/homepage.jpg"/>
                 <div class="homebannertitle">
                     <p>
@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-
+<p hidden id="mess" th:text="${mess}"></p>
 
 <div class="container padding-0 center-block margin-50 display-block">
     <div class="row">
@@ -99,8 +99,6 @@
                             <li><a href="#">Holiday Edition</a></li>
                             <li><a href="#">New Year Edition</a></li>
                         </ul>
-
-
                     </div>
 
 
@@ -111,11 +109,12 @@
 
                     <div class="row">
 
-                        <th:block th:each ="product : ${list}">
+                        <th:block th:each="product : ${list}">
                             <div class="col-sm-4 text-center margin-bottom-20">
                                 <div href="#" class="product-single">
 
-                                    <a class="overflow-hidden display-block" th:href="@{productPage/{id}(id=${product.id})}">
+                                    <a class="overflow-hidden display-block"
+                                       th:href="@{productPage/{id}(id=${product.id})}">
                                         <img class="img-responsive" th:src="@{'/upload/'+${product.image}}">
                                     </a>
                                     <div class="product-title margin-bottom-5">
@@ -124,8 +123,11 @@
                                     </div>
                                     <div class="product-price" th:text="'$'+${product.price}"><sup>USD</sup>
                                     </div>
-                                    <div class="product-add-cart"><span class="glyphicon glyphicon-shopping-cart"></span>
-                                    </div>
+                                    <a th:href="@{/cart/add/{id}(id=${product.id})}">
+                                        <div class="product-add-cart"><span
+                                                class="glyphicon glyphicon-shopping-cart"></span>
+                                        </div>
+                                    </a>
 
                                     <button type="button" class="quick-view" data-toggle="modal"
                                             th:data-target="'#note-sleeveModal'+${product.id}" value="Quick View">
@@ -134,7 +136,8 @@
                                 </div>
 
 
-                                <div th:id="'note-sleeveModal'+${product.id}" class="modal fade" role="dialog" style="display: none;">
+                                <div th:id="'note-sleeveModal'+${product.id}" class="modal fade" role="dialog"
+                                     style="display: none;">
                                     <div class="modal-dialog">
 
                                         <!-- Modal content-->
@@ -152,13 +155,14 @@
                                                     <p class="h5 bold-text">Description</p>
                                                     <p th:text="${product.description}"></p>
                                                     <p class="h5 bold-text">Price</p>
-                                                    <p class="product-price padding-0" th:text="'$'+${product.price}"><sup>USD</sup>
+                                                    <p class="product-price padding-0" th:text="'$'+${product.price}">
+                                                        <sup>USD</sup>
                                                     </p>
                                                     <p class="btn-group-sm">
-                                                        <a href="#" class="btn btn-info"><span
-                                                                class="glyphicon glyphicon-check"> </span> View Product</a>
+
                                                         <a class="btn btn-info"><span
-                                                                class="glyphicon glyphicon-shopping-cart"> </span> Add to
+                                                                class="glyphicon glyphicon-shopping-cart"> </span> Add
+                                                            to
                                                             Cart</a>
                                                     </p>
                                                 </div>
@@ -172,17 +176,26 @@
 
                                     </div>
                                 </div>
-                                   </div>
+                            </div>
                         </th:block>
                         <!-- single product Out of Stock Start -->
                         <!-- single product Out of Stock End -->
                     </div>
-                    <!-- Pagination Start -->
-                    <a th:href="@{/home(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a>
-                    <span th:text="${list.number + 1}"></span>/<span th:text="${list.totalPages}"></span>
-                    <a th:href="@{/home(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
 
-                    <!-- Pagination End -->
+                    <ul class="pagination">
+                        <li class="page-item"><a th:href="@{/home(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a></li>
+                        <th:block th:if="${list.number }>=1">
+                        <li class="page-item "> <span th:text="${list.number }" ></span></li>
+                        </th:block>
+                        <li class="page-item active"> <span th:text="${list.number + 1}"> </span></li>
+
+<!--                        <li class="page-item">-->
+<!--                            <span th:text="${list.totalPages}"></span>-->
+<!--                        </li>-->
+
+                        <li class="page-item"><a th:href="@{/home(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a></li>
+                    </ul>
+
                 </div>
 
 
@@ -195,4 +208,6 @@
 
 <footer th:replace="/shop/layout :: footer"></footer>
 <div th:replace="shop/rescourcesShop :: script"></div>
+
+
 </body>

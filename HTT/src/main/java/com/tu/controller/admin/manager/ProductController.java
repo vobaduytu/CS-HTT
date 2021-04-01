@@ -110,7 +110,7 @@ public class ProductController {
     }
 
     @PostMapping("/edit")
-    public String doEdit(@Valid @ModelAttribute("product") Product product, BindingResult result, RedirectAttributes attributes) {
+    public String doEdit(@Valid @ModelAttribute("product") Product product, BindingResult result, RedirectAttributes attributes,HttpServletRequest request) {
         try {
             if (result.hasErrors()) {
                 return "admin/manager/product/edit-product";
@@ -121,6 +121,42 @@ public class ProductController {
                 if ((product.getName()).equals(product1.getName()) && (product.getId()) != product1.getId()) {
                     attributes.addFlashAttribute("mess", "Tên đã tồn tại...!!!");
                     return "redirect:/product";
+                }
+            }
+            String uploadRootPath = request.getServletContext().getRealPath("upload");
+
+            File uploadRootDir = new File(uploadRootPath);
+
+            String uploadLocalPath = "D:\\CodeGym\\HTT\\HTT\\src\\main\\webapp\\upload";
+
+            File uploadLocalDir = new File(uploadLocalPath);
+
+            uploadRootDir.mkdirs();
+
+            CommonsMultipartFile[] fileDatas = product.getImageMulti();
+
+            for (CommonsMultipartFile fileData : fileDatas) {
+                String name = fileData.getOriginalFilename();
+                System.out.println("Client File Name = " + name);
+                if (name != null && name.length() > 0) {
+                    //ghi file vao server
+                    File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+                    FileOutputStream fosServer = new FileOutputStream(serverFile);
+                    BufferedOutputStream streamServer = new BufferedOutputStream(fosServer);
+                    streamServer.write(fileData.getBytes());
+                    streamServer.close();
+
+                    //ghi file vao local
+                    File localFile = new File(uploadLocalDir.getAbsolutePath() + File.separator + name);
+                    FileOutputStream fosLocal = new FileOutputStream(localFile);
+                    BufferedOutputStream streamLocal = new BufferedOutputStream(fosLocal);
+                    streamLocal.write(fileData.getBytes());
+                    streamLocal.close();
+
+                    //set image and save
+                    product.setImage(name);
+                    productService.saves(product);
+                    attributes.addFlashAttribute("mess", "Thêm mới thành công...!!!");
                 }
             }
             productService.saves(product);
@@ -155,7 +191,6 @@ public class ProductController {
 
     @GetMapping("/reset/{id}")
     public String reset(@PathVariable long id, RedirectAttributes redirectAttributes) {
-
         Product product = productService.findById(id).orElseThrow();
         if (!product.getCategory().isDeleted()) {
             product.setDeleted(false);

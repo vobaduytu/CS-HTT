@@ -38,7 +38,7 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public String doAdd(@ModelAttribute("order") Order order,  HttpSession session){
+    public String doAdd(@ModelAttribute("order") Order order,  HttpSession session,Model model,RedirectAttributes redirectAttributes,HttpServletRequest request){
         double total= (double) session.getAttribute("total");
         Order orderCart= (Order) session.getAttribute("order");
         order.setTotalPrice(total);
@@ -48,7 +48,12 @@ public class OrderController {
             orderDetail.setOrder(order);
             orderDetailRepository.save(orderDetail);
         }
-        return "redirect:/home";
+        model.addAttribute("order",new Order());
+        session.setAttribute("size", 0);
+        session.setAttribute("order", null);
+        session.setAttribute("total", total);
+        redirectAttributes.addFlashAttribute("mess","them thanh cong");
+        return "redirect:" + request.getHeader("referer");
     }
 
     @GetMapping("/edit/{id}")

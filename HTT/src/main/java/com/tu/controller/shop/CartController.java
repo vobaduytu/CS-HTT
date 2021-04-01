@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,7 @@ public class CartController {
     private ProductService productService;
 
     @GetMapping("add/{id}")
-    public String doAdd(@PathVariable("id") long id, HttpSession session, HttpServletRequest request, Model model) {
+    public String doAdd(@PathVariable("id") long id, HttpSession session, HttpServletRequest request, Model model,RedirectAttributes redirectAttributes) {
         double total = 0;
         Product product = productService.findById(id).orElseThrow();
         OrderDetail orderDetail = new OrderDetail();
@@ -37,6 +38,7 @@ public class CartController {
             session.setAttribute("order", order);
             total = orderDetail.getProduct().getPrice() * orderDetail.getQuantity();
             session.setAttribute("total", total);
+            redirectAttributes.addFlashAttribute("mess","them thanh cong");
             return "redirect:" + request.getHeader("referer");
         }
         boolean hasOne = false;
@@ -52,10 +54,12 @@ public class CartController {
         for (OrderDetail orderDetail1 : order.getOrderDetails()) {
             total += orderDetail1.getProduct().getPrice() * orderDetail1.getQuantity();
         }
+        session.setAttribute("mess","Add Success!");
         model.addAttribute("order",new Order());
         session.setAttribute("size", order.getOrderDetails().size());
         session.setAttribute("order", order);
         session.setAttribute("total", total);
+        redirectAttributes.addFlashAttribute("mess","them thanh cong");
         return "redirect:" + request.getHeader("referer");
     }
 
