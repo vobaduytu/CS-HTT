@@ -1,6 +1,7 @@
 package com.tu.controller.shop;
 
 
+import com.tu.model.Order;
 import com.tu.model.Product;
 import com.tu.repository.CategoryRepository;
 import com.tu.repository.ProductRepository;
@@ -26,6 +27,7 @@ private CategoryRepository categoryRepository;
     @GetMapping("/productPage/{id}")
     public String showProductPage(@PathVariable Long id, Model model, Pageable pageable){
         Product product = productService.findById(id).orElseThrow();
+        model.addAttribute("order",new Order());
         model.addAttribute("product",product);
         model.addAttribute("categories", categoryRepository.findByDeletedIsFalse(pageable));
         model.addAttribute("listProduct", productRepository.findAllByCategoryId(product.getCategory().getId(),pageable));

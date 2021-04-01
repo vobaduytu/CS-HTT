@@ -1,6 +1,7 @@
 package com.tu.controller.shop;
 
 
+import com.tu.model.Order;
 import com.tu.repository.CategoryRepository;
 import com.tu.service.CategoryService;
 import com.tu.service.ProductService;
@@ -25,6 +26,7 @@ private CategoryService categoryService;
     public String showHome(Model model,  @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
         model.addAttribute("list",productService.showAll(pageable));
         model.addAttribute("categories",categoryRepository.findByDeletedIsFalse (pageable));
+        model.addAttribute("order",new Order());
         return "shop/home";
     }
 }

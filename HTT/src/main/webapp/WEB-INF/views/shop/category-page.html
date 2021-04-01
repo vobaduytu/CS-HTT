@@ -37,7 +37,7 @@
                         <div class="col-sm-4 text-center margin-bottom-20">
                             <div href="#" class="product-single">
                                 <a class="overflow-hidden display-block" th:href="@{/productPage/{id}(id=${product.id})}">
-                                    <img class="img-responsive" th:src="${product.image}">
+                                    <img class="img-responsive"th:src="@{'/upload/'+${product.image}}">
                                 </a>
                                 <div class="product-title margin-bottom-5">
                                     <a href="productpage.html" th:utext="${product.name}"></a>

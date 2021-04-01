@@ -2,6 +2,7 @@ package com.tu.model;
 
 
 import lombok.Data;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -25,8 +26,12 @@ public class Product {
     private String description;
     @NotBlank
     private String color;
-    @NotBlank
+
+    @Transient
+    private CommonsMultipartFile[] imageMulti;
+
     private String image;
+
     @Min(value = 0)
     private double price;
     @Column(name = "create_date")
@@ -52,9 +57,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "create_id")
-
     private Customer customerCreate;
-
     @ManyToOne
     @JoinColumn(name = "update_id")
     private Customer customerUpdate;

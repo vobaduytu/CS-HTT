@@ -16,26 +16,44 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
+
     @Column(name = "total_price")
-    @NotEmpty
     private double totalPrice;
+
     @Column(name = "create_date")
-    @NotEmpty
     private LocalDateTime createDate = LocalDateTime.now();
+
     @Column(name = "expected_date")
     private LocalDateTime expectedDate;
+
     @Column(name = "reality_date")
     private LocalDateTime realityDate;
     @NotEmpty
     private String address;
-    private String comment;
 
+    private String phone;
+
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private List<OrderDetail> orderDetails;
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", totalPrice=" + totalPrice +
+                ", createDate=" + createDate +
+                ", expectedDate=" + expectedDate +
+                ", realityDate=" + realityDate +
+                ", address='" + address + '\'' +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

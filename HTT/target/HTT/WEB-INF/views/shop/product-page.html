@@ -33,7 +33,7 @@
                                 <!-- 1st Slides and Images Start -->
                                 <div class="carousel-inner">
                                     <div class="item active">
-                                        <img class="img-responsive" th:src="${product.image}">
+                                        <img class="img-responsive" th:src="@{'/upload/'+${product.image}}">
                                     </div>
 
                                 </div>
@@ -224,27 +224,9 @@
                         </div>
                         <!-- Slide 1 End -->
                     </div>
-
-
                 </div>
 
-
-
-
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <div class="col-md-5">
                 <h1 class="text-primary" th:text="${product.name}"></h1>
@@ -260,10 +242,10 @@
 
                 <div class="h3 margin-bottom-20" th:text="${product.price} + USD"></div>
 
-                <a th:href="@{/add/{id}}" class="btn btn-block btn-success border-radius-0 text-uppercase margin-bottom-20">Add To Cart</a>
+                <a th:href="@{/cart/add/{id}(id=${product.id})}" class="btn btn-block btn-success border-radius-0 text-uppercase margin-bottom-20">Add To Cart</a>
 
-                <div class="margin-bottom-20" th:text="${product.description}">
-
+                <div class="margin-bottom-20" >
+                    <p th:text="${product.description}"></p>
                 </div>
 
                 <!-- Accordion -->
@@ -331,8 +313,6 @@
 
 </div>
 <div class="container">
-
-
     <div class="container">
         <div class="row">
 
@@ -345,7 +325,7 @@
                 <div href="#" class="product-single">
 
                     <a class="overflow-hidden display-block" th:href="@{/productPage/{id}(id=${product.id})}">
-                        <img class="img-responsive" th:src="${product.image}"/>
+                        <img class="img-responsive" th:src="@{'/upload/'+${product.image}}"/>
                     </a>
                     <div class="product-title margin-bottom-5">
                         <a th:href="@{/productPage/{id}(id=${product.id})}" th:text="${product.name}">

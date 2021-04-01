@@ -33,7 +33,7 @@
                         <h5 class="title">Create New Product</h5>
                     </div>
                     <div class="card-body">
-                        <form th:object="${product}" method="post" th:action="@{/product/add}">
+                        <form th:object="${product}" enctype="multipart/form-data" method="post" th:action="@{/product/add}">
                             <div class="form-group">
                                 <label for="usr">Name:</label>
                                 <input type="text" class="form-control" id="usr" th:field="*{name}">
@@ -52,12 +52,10 @@
                                 <td th:if="${#fields.hasErrors('color')}" th:errors="*{color}">name Error</td>
                             </div>
                             <div class="form-group">
-                                <label for="img">Image:</label>
-                                <td th:if="${#fields.hasErrors('image')}" th:errors="*{image}">name Error</td>
+                                <label for="imageMulti">Image:</label>
                             </div>
-                            <input type="file"
-                                   id="img" name="avatar"
-                                   th:field="*{image}">
+                            <input type="file" class="form-control" id="imageMulti" th:field="*{imageMulti}">
+                            <input type="hidden" th:field="*{image}">
                             <div class="form-group">
                                 <label for="price">Price:</label>
                                 <input type="text" class="form-control" id="price" th:field="*{price}">

@@ -1,6 +1,5 @@
 package com.tu.repository;
 
-import com.tu.model.Category;
 import com.tu.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +21,14 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Modifying
     @Query("update Product p set p.deleted = true where p.category.id = :categoryId")
     Integer softDeletePostByCategoryId(@Param("categoryId") long categoryId);
+
+
+    @Modifying
+    @Query("update Product p set p.deleted = true where p.id = :id")
+    Integer softDeleteProduct(@Param("id") Long id);
+
+
+
     @Modifying
     @Query("update Product p set p.deleted = true where p.customerCreate.id = :customerId")
     Integer softDeletePostByCustomer(@Param("customerId") long customerId);

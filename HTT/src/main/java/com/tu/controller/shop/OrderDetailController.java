@@ -26,25 +26,15 @@ public class OrderDetailController {
 
     @GetMapping("")
     public String showOderDetail(Model model, Pageable pageable) {
-        model.addAttribute("list", orderDetailService.showAll(pageable));
-        return "shop/orderDetail/list-orderDetail";
-    }
-
-
-    @GetMapping("/add")
-    public String showAdd(Model model) {
-        model.addAttribute("oderDetail", new OrderDetail());
-        return "shop/orderDetail/add-orderDetail";
+        model.addAttribute("listOrderDetail", orderDetailService.showAll(pageable));
+        return "shop/layout";
     }
 
     @PostMapping("/add")
-    public String doAdd(@Valid @ModelAttribute("oderDetail") OrderDetail orderDetail, BindingResult result, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            return "shop/orderDetail/add-orderDetail";
-        }
+    public String doAdd(@ModelAttribute("oderDetail") OrderDetail orderDetail, BindingResult result, RedirectAttributes redirectAttributes) {
         orderDetailService.save(orderDetail);
         redirectAttributes.addFlashAttribute("mess", "đã thêm vào giỏ hàng");
-        return "redirect:/home";
+        return "";
     }
 
     @GetMapping("/edit/{id}")

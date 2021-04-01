@@ -2,6 +2,7 @@ package com.tu.model;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -28,9 +29,10 @@ public class Customer {
     @NotEmpty
     private String phoneNumber;
 
-    @NotEmpty
-    private String image;
+    @Transient
+    private CommonsMultipartFile[] imageMulti;
 
+    private String image;
     @NotEmpty
     private String dateOfBirth;
 
@@ -54,7 +56,6 @@ public class Customer {
     @OneToMany(mappedBy = "customerUpdate")
     private List<Product> productUpdate;
 
-
     @OneToMany(mappedBy = "customerDelete")
     private List<Product> productDelete;
 
@@ -64,4 +65,23 @@ public class Customer {
     @OneToMany(mappedBy = "customerCreate")
     private List<Product> productCreate;
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", configPassword='" + configPassword + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", image='" + image + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                ", deleteDate=" + deleteDate +
+                ", restoreDate=" + restoreDate +
+                ", deleted=" + deleted +
+                '}';
+    }
 }

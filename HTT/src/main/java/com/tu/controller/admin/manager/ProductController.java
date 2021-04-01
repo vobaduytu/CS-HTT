@@ -14,10 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -35,7 +40,7 @@ public class ProductController {
     private CategoryService categoryService;
 
     @GetMapping("")
-    public String showProduct(Model model,   @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable) {
+    public String showProduct(Model model, @PageableDefault(size = 7, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("list", productService.showAll(pageable));
         return "admin/manager/product/list-product";
     }
@@ -48,25 +53,53 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String doAdd(@Valid @ModelAttribute("product") Product product, BindingResult result, RedirectAttributes attributes, Model model, HttpServletRequest request) {
-        try {
+    public String doAdd(@Valid @ModelAttribute("product") Product product, BindingResult result, RedirectAttributes attributes, Model model, HttpServletRequest request) throws IOException {
             if (result.hasErrors()) {
                 model.addAttribute("categoryList", categoryRepository.findAll());
                 return "admin/manager/product/add-product";
             }
-            String name = product.getName();
-            List<Product> productTemps = productRepository.findByName(name);
+            List<Product> productTemps = productRepository.findByName(product.getName());
             if (productTemps == null || productTemps.isEmpty()) {
-                productService.saves(product);
-                attributes.addFlashAttribute("mess", "Thêm mới thành công...!!!");
+                String uploadRootPath = request.getServletContext().getRealPath("upload");
+
+                File uploadRootDir = new File(uploadRootPath);
+
+                String uploadLocalPath = "D:\\CodeGym\\HTT\\HTT\\src\\main\\webapp\\upload";
+
+                File uploadLocalDir = new File(uploadLocalPath);
+
+                uploadRootDir.mkdirs();
+
+                CommonsMultipartFile[] fileDatas = product.getImageMulti();
+
+                for (CommonsMultipartFile fileData : fileDatas) {
+                    String name = fileData.getOriginalFilename();
+                    System.out.println("Client File Name = " + name);
+                    if (name != null && name.length() > 0) {
+                        //ghi file vao server
+                        File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+                        FileOutputStream fosServer = new FileOutputStream(serverFile);
+                        BufferedOutputStream streamServer = new BufferedOutputStream(fosServer);
+                        streamServer.write(fileData.getBytes());
+                        streamServer.close();
+
+                        //ghi file vao local
+                        File localFile = new File(uploadLocalDir.getAbsolutePath() + File.separator + name);
+                        FileOutputStream fosLocal = new FileOutputStream(localFile);
+                        BufferedOutputStream streamLocal = new BufferedOutputStream(fosLocal);
+                        streamLocal.write(fileData.getBytes());
+                        streamLocal.close();
+
+                        //set image and save
+                        product.setImage(name);
+                        productService.saves(product);
+                        attributes.addFlashAttribute("mess", "Thêm mới thành công...!!!");
+                    }
+                }
             } else {
                 attributes.addFlashAttribute("mess", "Tên product đã tồn tại");
             }
             return "redirect:/product";
-        } catch (Exception e) {
-            attributes.addFlashAttribute("mess", "error");
-            return "redirect:/product";
-        }
     }
 
     @GetMapping("/edit/{id}")
@@ -101,7 +134,7 @@ public class ProductController {
 
     @GetMapping("/view/{id}")
     public String showView(@PathVariable long id, Model model) {
-        model.addAttribute("product", productService.findById(id));
+        model.addAttribute("product", productService.findById(id).orElseThrow());
         model.addAttribute("list", productRepository.findAll());
         model.addAttribute("category", categoryRepository.findAll());
         return "admin/manager/product/view-product";
@@ -115,7 +148,7 @@ public class ProductController {
     }
 
     @GetMapping("/showDeleteProduct")
-    public String showDelete(Model model,   @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable) {
+    public String showDelete(Model model, @PageableDefault(size = 7, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("list", productRepository.findAllByDeletedIsTrue(pageable));
         return "admin/manager/product/list-delete-product";
     }
@@ -124,16 +157,14 @@ public class ProductController {
     public String reset(@PathVariable long id, RedirectAttributes redirectAttributes) {
 
         Product product = productService.findById(id).orElseThrow();
-        if (!product.getCategory().isDeleted() ) {
+        if (!product.getCategory().isDeleted()) {
             product.setDeleted(false);
             productService.saves(product);
             redirectAttributes.addFlashAttribute("mess", "khôi phục thành công");
             return "redirect:/product/showDeleteProduct";
-        }
-
-      else
+        } else
             redirectAttributes.addFlashAttribute("mess", "Bạn cần khôi phục Category trước");
-            return "redirect:/category/showDeleteCategory";
+        return "redirect:/category/showDeleteCategory";
 
 
 //      else
