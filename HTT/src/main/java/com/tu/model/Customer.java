@@ -22,18 +22,17 @@ public class Customer {
     private String password;
     @NotEmpty
     private String configPassword;
-    @NotEmpty
+
     private String fullName;
-    @NotEmpty
+
     private String gender;
-    @NotEmpty
+
     private String phoneNumber;
 
     @Transient
     private CommonsMultipartFile[] imageMulti;
 
     private String image;
-    @NotEmpty
     private String dateOfBirth;
 
     @Column(name = "create_date")
