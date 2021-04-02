@@ -41,7 +41,7 @@ public class SignUpController {
         if (customerTemp.isEmpty() && (customer.getPassword()).equals(customer.getConfigPassword())){
             Role role = new Role();
             role.setId(3);
-
+            customer.setImage("avt.jpg");
             customer.setRole(role);
 
             customer.setPassword(passwordEncoder.encode(customer.getPassword()));

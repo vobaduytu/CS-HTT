@@ -3,6 +3,7 @@ package com.tu.controller.shop;
 import com.tu.model.Order;
 
 import com.tu.model.OrderDetail;
+import com.tu.model.Status;
 import com.tu.repository.OrderDetailRepository;
 import com.tu.repository.OrderRepository;
 import com.tu.service.OrderService;
@@ -42,12 +43,16 @@ public class OrderController {
         double total= (double) session.getAttribute("total");
         Order orderCart= (Order) session.getAttribute("order");
         order.setTotalPrice(total);
+        Status status = new Status();
+        status.setId(1);
+        order.setStatus(status);
         orderService.save(order);
         for(OrderDetail orderDetail:orderCart.getOrderDetails()){
             orderDetail.setTotalPrice(orderDetail.getProduct().getPrice()*orderDetail.getQuantity());
             orderDetail.setOrder(order);
             orderDetailRepository.save(orderDetail);
         }
+
         model.addAttribute("order",new Order());
         session.setAttribute("size", 0);
         session.setAttribute("order", null);

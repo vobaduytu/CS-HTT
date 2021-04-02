@@ -248,11 +248,13 @@ Navigation Start
                                                     <label><span class="glyphicon glyphicon-user"></span>Profile</label>
                                                 </div>
                                             </a>
-                                            <a href="#">
+                                            <th:block th:if="${session.role != null && session.role.id == 1}">
+                                            <a th:href="@{/dashboard}">
                                                 <div class="form-group">
-                                                    <label><span class="glyphicon glyphicon-paste"></span>Change Password</label>
+                                                    <label><span class="glyphicon glyphicon-log-out"></span>Dashboard</label>
                                                 </div>
                                             </a>
+                                            </th:block>
                                             <a th:href="@{/logout}">
                                                 <div class="form-group">
                                                     <label><span class="glyphicon glyphicon-log-out"></span>Log Out</label>

@@ -1,6 +1,5 @@
 package com.tu.service;
 
-import com.tu.model.Role;
 import com.tu.model.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

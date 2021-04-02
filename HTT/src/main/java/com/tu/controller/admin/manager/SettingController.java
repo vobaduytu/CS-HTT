@@ -45,6 +45,7 @@ public class SettingController {
         model.addAttribute("order", new Order());
         model.addAttribute("customer", customerRepository.findByEmail(principal.getName()));
         model.addAttribute("categories", categoryRepository.findByDeletedIsFalse(pageable));
+
         return "shop/profile";
     }
 

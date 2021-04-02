@@ -129,29 +129,37 @@ public class CustomerController {
 
     @GetMapping("/edit/{id}")
     public String doEditForm(@PathVariable("id") Long id, Model model) {
-        Customer customer = customerService.findById(id).orElseThrow();
-        if (customer != null) {
-            model.addAttribute("roles", roleRepository.findAll());
-            model.addAttribute("customer", customer);
-            return "admin/manager/customer/edit-customer";
-        } else {
-            return "error";
-        }
+      try{
+          Customer customer = customerService.findById(id).orElseThrow();
+          if (customer != null) {
+              model.addAttribute("roles", roleRepository.findAll());
+              model.addAttribute("customer", customer);
+              return "admin/manager/customer/edit-customer";
+          } else {
+              return "error";
+          }
+      }catch (Exception e){
+          return "error";
+      }
     }
 
     @PostMapping("/doEdit")
     public String doEdit(@Valid @ModelAttribute("customer") Customer customer, BindingResult result, RedirectAttributes attributes) {
-        if (result.hasFieldErrors()) {
-            attributes.addFlashAttribute("mess", "Lỗi...!!!");
-            return "redirect:/customer";
-        }
-        if ((customer.getPassword()).equals(customer.getConfigPassword())) {
-            customerService.save(customer);
-            attributes.addFlashAttribute("mess", "Thay đổi thành công...!!!");
-        } else {
-            attributes.addFlashAttribute("mess", "Mật khẩu không khớp...!!!");
-        }
-        return "redirect:/customer";
+      try {
+          if (result.hasFieldErrors()) {
+              attributes.addFlashAttribute("mess", "Lỗi...!!!");
+              return "redirect:/customer";
+          }
+          if ((customer.getPassword()).equals(customer.getConfigPassword())) {
+              customerService.save(customer);
+              attributes.addFlashAttribute("mess", "Thay đổi thành công...!!!");
+          } else {
+              attributes.addFlashAttribute("mess", "Mật khẩu không khớp...!!!");
+          }
+          return "redirect:/customer";
+      }catch (Exception e){
+          return "error";
+      }
     }
 
 

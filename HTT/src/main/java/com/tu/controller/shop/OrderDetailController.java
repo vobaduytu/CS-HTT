@@ -44,7 +44,7 @@ public class OrderDetailController {
             model.addAttribute("oderDetail",orderDetail);
             return "shop/orderDetail/edit-orderDetail";
         }else {
-            return "erorr";
+            return "error";
         }
     }
     @PostMapping("/edit")
