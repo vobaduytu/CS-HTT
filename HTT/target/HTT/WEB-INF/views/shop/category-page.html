@@ -46,15 +46,17 @@
                                 </div>
                                 <div class="product-shrot-description" th:utext="${product.category.name}">
                                 </div>
-                                <div class="product-add-cart"><span class="glyphicon glyphicon-shopping-cart"></span>
-                                </div>
-
+                                <a th:href="@{/cart/add/{id}(id=${product.id})}">
+                                    <div class="product-add-cart"><span
+                                            class="glyphicon glyphicon-shopping-cart"></span>
+                                    </div>
+                                </a>
                                 <button type="button" class="quick-view" data-toggle="modal"
                                         data-target="#note-sleeveModal" value="Quick View">
                                     <i class="fa fa-plus-square-o"></i>
                                 </button>
                             </div>
-
+                            product-add-cart
 
                             <div id="note-sleeveModal" class="modal fade" role="dialog" style="display: none;">
                                 <div class="modal-dialog">
@@ -101,7 +103,14 @@
                     </th:block>
                 </div>
                 <!-- Pagination Start -->
-
+                <ul class="pagination">
+                    <li class="page-item"><a th:href="@{/categoryPage/{id}(categories=${list.number - 1})}" th:if="${categories.hasPrevious()}">Previous</a></li>
+                    <th:block th:if="${categories.number }>=1">
+                        <li class="page-item "> <span th:text="${categories.number }" ></span></li>
+                    </th:block>
+                    <li class="page-item active"> <span th:text="${categories.number + 1}"> </span></li>
+                    <li class="page-item"><a th:href="@{/categoryPage/{id}(page=${categories.number + 1})}" th:if="${categories.hasNext()}">Next</a></li>
+                </ul>
                 <!-- Pagination End -->
             </div>
 

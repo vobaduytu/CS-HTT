@@ -25,7 +25,7 @@ private CategoryService categoryService;
     @GetMapping("/home")
     public String showHome(Model model,  @PageableDefault(size = 7,sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
         model.addAttribute("list",productService.showAll(pageable));
-        model.addAttribute("categories",categoryRepository.findByDeletedIsFalse (pageable));
+        model.addAttribute("categories",categoryRepository.findByDeletedIsFalse());
         model.addAttribute("order",new Order());
         return "shop/home";
     }

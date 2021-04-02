@@ -336,9 +336,14 @@
                     </div>
                     <div class="product-shrot-description" th:text="${product.category}">
                     </div>
-                    <a th:href="@{/productPage/{id}(id=${product.id})}" class="product-add-cart"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                </div>
+                <a th:href="@{/cart/add/{id}(id=${product.id})}">
+                    <div class="product-add-cart"><span
+                            class="glyphicon glyphicon-shopping-cart"></span>
+                    </div>
+                </a>
 
-                    <button type="button" class="quick-view" data-toggle="modal" data-target="#google-pixelModal" value="Quick View">
+                <button type="button" class="quick-view" data-toggle="modal" data-target="#google-pixelModal" value="Quick View">
                         <i class="fa fa-plus-square-o"></i>
                     </button>
                 </div>

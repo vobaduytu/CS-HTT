@@ -28,27 +28,20 @@ Navigation Start
             <div class="row">
 
                 <div class="col-md-12">
-
-
                     <!-- Cart Icon Start -->
                     <ul class="nav navbar-nav pull-right">
-                        <li>
-
-                            <a class="outline-0 z-index-1" href="#cartModal" data-toggle="modal"
-                               data-target="#cartModal">
-                                <span class="glyphicon glyphicon-shopping-cart">Cart</span>
-                                <th:block th:if="${session.size != 0}">
-                                    <sup
-                                            class="btn btn-xs cart-sub" th:utext="${session.size}"
-                                            sec:authorize="isAuthenticated()">
-                                    </sup>
-                                </th:block>
-                            </a>
-
+                        <li><a class="outline-0 z-index-1" href="#cartModal" data-toggle="modal" data-target="#cartModal">
+                            <span class="glyphicon glyphicon-shopping-cart">Cart</span>
+                            <th:block th:if="${session.size != 0}">
+                                <sup class="btn btn-xs cart-sub" th:utext="${session.size}" sec:authorize="isAuthenticated()"></sup>
+                            </th:block>
+                        </a>
                         </li>
 
                     </ul>
                     <!-- Cart Icon End -->
+
+
 
                     <!-- Login Up Modal Start -->
                     <div class="modal fade" id="cartModal" role="dialog" sec:authorize="isAuthenticated()">
@@ -113,7 +106,6 @@ Navigation Start
                             </div>
                         </div>
                     </div>
-
                     <div class="modal fade" id="cartCheckOut" role="dialog" sec:authorize="isAuthenticated()">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -122,45 +114,45 @@ Navigation Start
                                     Order Cart
                                 </div>
                                 <form th:action="@{/order/add}" method="POST" th:object="${order}">
-                                <div class="modal-body padding-0">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <div class="form-row">
-                                                <label for="name">Name</label>
-                                                <input type="text" class="form-control" id="name" th:field="*{name}"
-                                                       placeholder="Name" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="address">Address</label>
-                                                <input type="text" class="form-control" id="address" th:field="*{address}"
-                                                       placeholder="1234 Main St" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="phone">Phone</label>
-                                                <input type="number" class="form-control" id="phone" th:field="*{phone}"
-                                                       placeholder="0936854***" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="comment">Comment</label>
-                                                <textarea class="form-control" rows="5" id="comment" th:field="*{comment}"></textarea>
-                                            </div>
-                                            </thead>
-                                            <tfoot>
-                                            <tr class="active h4">
-                                                <td colspan="5" align="left">Total</td>
-                                                <td align="right" th:if="${session.order != null}"
-                                                    th:text="${session.total}"></td>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
+                                    <div class="modal-body padding-0">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                <div class="form-row">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" class="form-control" id="name" th:field="*{name}"
+                                                           placeholder="Name" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="address">Address</label>
+                                                    <input type="text" class="form-control" id="address" th:field="*{address}"
+                                                           placeholder="1234 Main St" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="phone">Phone</label>
+                                                    <input type="number" class="form-control" id="phone" th:field="*{phone}"
+                                                           placeholder="0936854***" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea class="form-control" rows="5" id="comment" th:field="*{comment}"></textarea>
+                                                </div>
+                                                </thead>
+                                                <tfoot>
+                                                <tr class="active h4">
+                                                    <td colspan="5" align="left">Total</td>
+                                                    <td align="right" th:if="${session.order != null}"
+                                                        th:text="${session.total}"></td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
 
                                     </div>
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-default pull-right">Order Now</button>
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-default pull-right">Order Now</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -216,8 +208,7 @@ Navigation Start
                                 </ul>
                             </li>
                             <!-- Category Dropdown End -->
-                            <li><a href="#">Collections</a></li>
-                            <li><a href="#">Blog</a></li>
+
                         </ul>
                         <!-- Links in Menu End -->
 
@@ -225,18 +216,21 @@ Navigation Start
                         <!-- Sign up and Login start -->
 
                         <ul class="nav navbar-nav navbar-right">
-
                             <li>
-                                <!-- sign up modal trigger -->
+                                <!-- Setting modal trigger -->
+                                <a  sec:authorize="isAuthenticated()" class="outline-0" href="#signupModal" data-toggle="modal" data-target="#signupModal"><span class="glyphicon glyphicon-cog"></span>Setting</a>
+                            </li>
+                            <li>
+                                <!-- Setting modal trigger -->
                                 <a th:href="@{/login}" sec:authorize="!isAuthenticated()"><span
                                         class="glyphicon glyphicon-user"></span> Sign in</a>
 
                             </li>
 
-                            <li>
-                                <a sec:authorize="isAuthenticated()" th:href="@{/logout}"><span
-                                        class="glyphicon glyphicon-log-in"></span> Logout</a>
-                            </li>
+                            <!--                            <li>-->
+                            <!--                                <a sec:authorize="isAuthenticated()" th:href="@{/logout}"><span-->
+                            <!--                                        class="glyphicon glyphicon-log-in"></span> Logout</a>-->
+                            <!--                            </li>-->
 
                         </ul>
 
@@ -245,84 +239,31 @@ Navigation Start
                         <div class="modal fade" id="signupModal" role="dialog">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
-
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        Sign Up Now
-                                    </div>
-                                    <div class="modal-body">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button><h4>Setting</h4></div>
+                                    <div class="modal-body" style="margin-left: 37%">
                                         <form class="form-horizontal">
-
-                                            <div class="form-group">
-
-                                                <label class="control-label col-sm-5 text-align-left"
-                                                       for="username"><span class="glyphicon glyphicon-user"></span>
-                                                    Username:</label>
-                                                <div class="col-sm-7">
-                                                    <input type="text" class="form-control" id="Email"
-                                                           placeholder="Enter username" name="text">
+                                            <a th:href="@{/profile}">
+                                                <div class="form-group">
+                                                    <label><span class="glyphicon glyphicon-user"></span>Profile</label>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-
-
-                                                <label class="control-label col-sm-5 text-align-left" for="name"><span
-                                                        class="glyphicon glyphicon-registration-mark"></span> Full Name:</label>
-                                                <div class="col-sm-7">
-                                                    <input type="text" class="form-control" id="Email"
-                                                           placeholder="Enter username" name="name">
+                                            </a>
+                                            <a href="#">
+                                                <div class="form-group">
+                                                    <label><span class="glyphicon glyphicon-paste"></span>Change Password</label>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-
-
-                                                <label class="control-label col-sm-5 text-align-left"
-                                                       for="password"><span class="glyphicon glyphicon-lock"></span>
-                                                    Password:</label>
-                                                <div class="col-sm-7">
-                                                    <input type="password" class="form-control" id="password"
-                                                           placeholder="Enter password" name="password">
+                                            </a>
+                                            <a th:href="@{/logout}">
+                                                <div class="form-group">
+                                                    <label><span class="glyphicon glyphicon-log-out"></span>Log Out</label>
                                                 </div>
-                                            </div>
-
-                                            <div class="form-group">
-
-
-                                                <label class="control-label col-sm-5 text-align-left"
-                                                       for="password2"><span class="glyphicon glyphicon-lock"></span>
-                                                    Re-Type Password:</label>
-                                                <div class="col-sm-7">
-                                                    <input type="password" class="form-control" id="password"
-                                                           placeholder="Retype password" name="password2">
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-10">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox" name="remember"> Accept Terms &
-                                                            Conditions.</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-default">Submit</button>
-                                                </div>
-                                            </div>
-
-
+                                            </a>
                                         </form>
-
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-                        <!-- Sign Up Modal End -->
+                        <!-- Setting Up Modal End -->
                         <!-- Login Up Modal Start -->
                         <div class="modal fade" id="loginModal" role="dialog">
                             <div class="modal-dialog modal-sm">
