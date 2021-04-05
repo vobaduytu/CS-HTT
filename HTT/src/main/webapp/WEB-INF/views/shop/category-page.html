@@ -34,13 +34,13 @@
                 <div class="row">
                     <!-- single product -->
                     <th:block th:each="product : ${list}">
-                        <div class="col-sm-4 text-center margin-bottom-20">
-                            <div href="#" class="product-single">
+                        <div class="col-sm-3 text-center margin-bottom-20">
+                            <div href="#" class="product-single" style="height: 320px; width: 276px;">
                                 <a class="overflow-hidden display-block" th:href="@{/productPage/{id}(id=${product.id})}">
-                                    <img class="img-responsive"th:src="@{'/upload/'+${product.image}}">
+                                    <img class="img-responsive"th:src="@{'/upload/'+${product.image}}" style="height: 171px;width: 276px;">
                                 </a>
                                 <div class="product-title margin-bottom-5">
-                                    <a href="productpage.html" th:utext="${product.name}"></a>
+                                    <a th:href="@{/productPage/{id}(id=${product.id})}" th:utext="${product.name}"></a>
                                 </div>
                                 <div class="product-price" th:utext="${product.price}"><sup>USD</sup>
                                 </div>
@@ -56,8 +56,6 @@
                                     <i class="fa fa-plus-square-o"></i>
                                 </button>
                             </div>
-                            product-add-cart
-
                             <div id="note-sleeveModal" class="modal fade" role="dialog" style="display: none;">
                                 <div class="modal-dialog">
 
@@ -123,5 +121,7 @@
 
 <footer th:replace="/shop/layout :: footer"></footer>
 <div th:replace="shop/rescourcesShop :: script"></div>
-
+<script th:if="${mess != null}">
+    $.notify(document.getElementById("mess").innerHTML, "success");
+</script>
 </body>

@@ -54,6 +54,7 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="customer : ${list}">
+                                        <th:block th:if="${customer.role.id == 3}">
                                         <td th:text="${customer.email}"></td>
                                         <td th:text="${customer.fullName}"></td>
                                         <td th:text="${customer.gender}"></td>
@@ -66,6 +67,7 @@
                                                onclick="return confirm('co chac muon xoa')"><i
                                                 class="fas fa-trash-alt"></i></a>
                                         </td>
+                                        </th:block>
                                     </tr>
                                     </tbody>
                                 </table>

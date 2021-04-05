@@ -30,7 +30,7 @@ private CategoryRepository categoryRepository;
         model.addAttribute("order",new Order());
         model.addAttribute("product",product);
         model.addAttribute("categories", categoryRepository.findByDeletedIsFalse(pageable));
-        model.addAttribute("listProduct", productRepository.findAllByCategoryId(product.getCategory().getId(),pageable));
+        model.addAttribute("listProduct", productRepository.findAllByDeletedIsFalseAndCategoryId(product.getCategory().getId(),pageable));
         return "shop/product-page";
     }
 }

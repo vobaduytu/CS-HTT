@@ -23,7 +23,7 @@ public class CategoryPageController {
     @GetMapping("/categoryPage/{id}")
     public String categoryPage(@PathVariable Long id, Model model, Pageable pageable){
         model.addAttribute("order",new Order());
-        model.addAttribute("list",productRepository.findAllByCategoryId(id,pageable));
+        model.addAttribute("list",productRepository.findAllByDeletedIsFalseAndCategoryId(id,pageable));
         model.addAttribute("categories", categoryRepository.findByDeletedIsFalse(pageable));
         return "shop/category-page";
     }

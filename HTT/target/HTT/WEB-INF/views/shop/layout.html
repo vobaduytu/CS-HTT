@@ -65,18 +65,16 @@ Navigation Start
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <th:block th:if="${session.order != null}"
-                                            >
+                                            <th:block th:if="${session.order != null}">
                                                 <tr th:each="orderDetails : ${session.order.getOrderDetails()}">
-
-                                                    <td><img class="img-responsive max-width-80 padding-0 margin-0"
-                                                             th:src="@{'/upload/'+${orderDetails.product.image}}"/></td>
+                                                    <td><img style="width: 195px;
+    height: 140px;" class="img-responsive max-width-80 padding-0 margin-0" th:src="@{'/upload/'+${orderDetails.product.image}}"/></td>
                                                     <td th:utext="${orderDetails.product.name}"></td>
                                                     <td th:utext="${orderDetails.product.price}"></td>
                                                     <td th:utext="${orderDetails.quantity}"></td>
                                                     <td align="right" th:utext="${orderDetails.product.price}"></td>
                                                     <td>
-                                                        <a th:href="@{/cart/delete/{id}(id=${orderDetails.product.id})}" style="text-align: right;">Delete</a>
+                                                        <a th:href="@{/cart/delete/{id}(id=${orderDetails.product.id})}"  onclick="return confirm('Bạn chắc chắn không...???')" style="text-align: right;">Delete</a>
                                                     </td>
                                                 </tr>
                                             </th:block>
@@ -97,10 +95,12 @@ Navigation Start
                                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
                                         Continue Shopping
                                     </button>
+                                    <th:block th:if="${session.order != null}">
                                     <a type="button" class="btn btn-default pull-right" href="#cartCheckOut"
                                        data-toggle="modal"
                                        data-target="#cartCheckOut">Check
                                         Out</a>
+                                    </th:block>
                                 </div>
 
                             </div>
@@ -150,9 +150,11 @@ Navigation Start
                                         </div>
 
                                     </div>
+
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-default pull-right">Order Now</button>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
@@ -233,6 +235,25 @@ Navigation Start
                             <!--                            </li>-->
 
                         </ul>
+
+                        <!--Sign up adng Login End-->
+
+                        <!-- Search-->
+                        <!-- Search Form start -->
+
+                        <form class="navbar-form navbar-right" th:action="@{/searchProduct}" method="post">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" name="search">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                        <!-- Search Form end -->
+                        <!--Search End-->
 
 
                         <!-- Sign Up Modal Start -->
@@ -355,8 +376,7 @@ Navigation Start
             <div class="col-xs-6 text-right small color-light">&copy; 2017. Develop by Muntasir. <br></div>
         </div>
     </div>
-
-
+    <p hidden th:utext="${mess}" id="mess"></p>
 </footer>
 </body>
 </html>

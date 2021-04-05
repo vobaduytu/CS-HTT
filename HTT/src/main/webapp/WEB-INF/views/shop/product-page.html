@@ -320,12 +320,12 @@
                 Related Products
             </div>
             <th:block th:each="product : ${listProduct}">
-            <div class="col-sm-4 text-center margin-bottom-20">
+            <div class="col-sm-3 text-center margin-bottom-20">
 
-                <div href="#" class="product-single">
+                <div href="#" class="product-single" style="height: 320px; width: 276px;">
 
                     <a class="overflow-hidden display-block" th:href="@{/productPage/{id}(id=${product.id})}">
-                        <img class="img-responsive" th:src="@{'/upload/'+${product.image}}"/>
+                        <img class="img-responsive" th:src="@{'/upload/'+${product.image}}" style="height: 171px;width: 276px;"/>
                     </a>
                     <div class="product-title margin-bottom-5">
                         <a th:href="@{/productPage/{id}(id=${product.id})}" th:text="${product.name}">
@@ -395,4 +395,7 @@
 
 <footer th:replace="/shop/layout :: footer"></footer>
 <div th:replace="shop/rescourcesShop :: script"></div>
+<script th:if="${mess != null}">
+    $.notify(document.getElementById("mess").innerHTML, "success");
+</script>
 </body>
