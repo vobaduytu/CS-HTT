@@ -3,6 +3,7 @@ package com.tu.controller.shop;
 import com.tu.model.Order;
 import com.tu.model.OrderDetail;
 import com.tu.model.Product;
+import com.tu.model.Role;
 import com.tu.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,14 @@ public class CartController {
         orderDetail.setProduct(product);
         orderDetail.setQuantity(1);
         Order order = (Order) session.getAttribute("order");
+        Role role = (Role) session.getAttribute("role");
+        if(role == null){
+            return "/login";
+        }
+        if(role.getId() == 1){
+            redirectAttributes.addFlashAttribute("mess","Không thể đặt hàng...!!!");
+            return "redirect:" + request.getHeader("referer");
+        }
         if (order == null) {
             order = new Order();
             order.setOrderDetails(new ArrayList<>());

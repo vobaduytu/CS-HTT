@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -19,6 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService customerDetailsServiceImpl;
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new MyCustomLoginSuccessHandler("/home");
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -35,13 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/product/**", "/user/**", "/category/**","/dashboard/**,/orderList/**").hasAnyAuthority("Admin")
-                .antMatchers(  "/cart/**").hasAnyAuthority("Buyer")
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/getName",true)
+//                .defaultSuccessUrl("/getName",true)
+                .successHandler(successHandler())
                 .failureUrl("/login/")
                 .and()
                 .exceptionHandling().accessDeniedPage("/error")
